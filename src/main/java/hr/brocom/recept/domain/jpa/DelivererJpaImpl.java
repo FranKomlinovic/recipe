@@ -22,7 +22,7 @@ public class DelivererJpaImpl {
 
     @Transactional
     public List<DelivererDto> getAllDeliverers() {
-        return delivererRepository.findAll()
+        return delivererRepository.findAllByActiveTrue()
                                   .stream()
                                   .map(r -> modelMapper.map(r, DelivererDto.class))
                                   .collect(Collectors.toList());
@@ -30,12 +30,32 @@ public class DelivererJpaImpl {
 
     @Transactional
     public void addDeliverer(DelivererDto delivererDto) {
-        delivererRepository.saveAndFlush(modelMapper.map(delivererDto, DelivererEntity.class));
+        modifyDeliverer(new DelivererEntity(), delivererDto);
+    }
+
+    private void modifyDeliverer(DelivererEntity delivererEntity, DelivererDto delivererDto) {
+        delivererEntity.setCode(delivererDto.getCode());
+        delivererEntity.setFirst_name(delivererDto.getFirst_name());
+        delivererEntity.setLast_name(delivererDto.getLast_name());
+        delivererRepository.saveAndFlush(delivererEntity);
     }
 
     @Transactional
     public DelivererDto findDelivererByCode(String code) {
         return modelMapper.map(findByCode(code), DelivererDto.class);
+    }
+
+    @Transactional
+    public void updateDeliverer(DelivererDto delivererDto) {
+        DelivererEntity delivererEntity = findByCode(delivererDto.getCode());
+        modifyDeliverer(delivererEntity, delivererDto);
+    }
+
+    @Transactional
+    public void deactivateDeliverer(String code) {
+        DelivererEntity delivererEntity = findByCode(code);
+        delivererEntity.setActive(false);
+        delivererRepository.saveAndFlush(delivererEntity);
     }
 
     private DelivererEntity findByCode(String code) {

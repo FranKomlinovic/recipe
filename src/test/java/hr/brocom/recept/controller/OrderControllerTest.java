@@ -8,7 +8,6 @@ import hr.brocom.recept.domain.jpa.repository.OrdersRepository;
 import hr.brocom.recept.model.OrderDto;
 import hr.brocom.recept.model.RestDto;
 import hr.brocom.recept.model.UserDto;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -67,18 +68,18 @@ public class OrderControllerTest {
     public void getAllActiveOrders() {
         RestDto<List<OrderDto>> response = orderController.getAllActiveOrders();
 
-        Assert.assertNotNull(response.getData());
-        Assert.assertTrue(response.isSuccess());
+        assertNotNull(response.getData());
+        assertTrue(response.isSuccess());
         Optional<OrderDto> orderOptional = response.getData()
                                                    .stream()
                                                    .filter(orderDto -> INIT_CODE.equals(orderDto.getCode()))
                                                    .findFirst();
 
-        Assert.assertTrue(orderOptional.isPresent());
+        assertTrue(orderOptional.isPresent());
         OrderDto orderDto = orderOptional.get();
-        Assert.assertNotNull(orderDto.getDeliverer());
-        Assert.assertNotNull(orderDto.getUser());
-        Assert.assertEquals(INIT_CODE, orderDto.getCode());
+        assertNotNull(orderDto.getDeliverer());
+        assertNotNull(orderDto.getUser());
+        assertEquals(INIT_CODE, orderDto.getCode());
     }
 
     @Test
@@ -87,22 +88,22 @@ public class OrderControllerTest {
         orderController.addOrder(createInitOrder());
         OrdersEntity orderFromDatabase = findByCode(CODE);
 
-        Assert.assertEquals(CODE, orderFromDatabase.getCode());
-        Assert.assertEquals(ADDITIONAL_INFO, orderFromDatabase.getAdditionalInfo());
-        Assert.assertEquals(ADDRESS, orderFromDatabase.getAddress());
-        Assert.assertEquals(CREATED_TIME, orderFromDatabase.getCreatedTime());
-        Assert.assertEquals(DELIVERY_DATE_TIME, orderFromDatabase.getDeliveryDateTime());
-        Assert.assertEquals(DELIVERED, orderFromDatabase.getDelivered());
-        Assert.assertEquals(PRICE, orderFromDatabase.getPrice());
-        Assert.assertEquals(CASH_ON_DELIVERY, orderFromDatabase.getCashOnDelivery());
+        assertEquals(CODE, orderFromDatabase.getCode());
+        assertEquals(ADDITIONAL_INFO, orderFromDatabase.getAdditionalInfo());
+        assertEquals(ADDRESS, orderFromDatabase.getAddress());
+        assertEquals(CREATED_TIME, orderFromDatabase.getCreatedTime());
+        assertEquals(DELIVERY_DATE_TIME, orderFromDatabase.getDeliveryDateTime());
+        assertEquals(DELIVERED, orderFromDatabase.getDelivered());
+        assertEquals(PRICE, orderFromDatabase.getPrice());
+        assertEquals(CASH_ON_DELIVERY, orderFromDatabase.getCashOnDelivery());
 
         // User koji se nalazi u orderu
-        Assert.assertEquals(USER_MAIL,
-                            orderFromDatabase.getUser()
+        assertEquals(USER_MAIL,
+                     orderFromDatabase.getUser()
                                              .getMail());
         // Deliverer koji se nalazi u orderu
-        Assert.assertEquals(DELIVERER_CODE,
-                            orderFromDatabase.getDeliverer()
+        assertEquals(DELIVERER_CODE,
+                     orderFromDatabase.getDeliverer()
                                              .getCode());
     }
 
@@ -139,29 +140,27 @@ public class OrderControllerTest {
     @Test
     @Transactional
     public void updateOrder() {
-        List<UserDto> allUsers = userJpa.getAllUsers();
-        System.out.println(allUsers.toString());
         // Init data
         OrderDto initOrder = createInitOrder();
 
         // Check if not exists yet
-        Assert.assertFalse(ordersRepository.findByCode(CODE)
-                                           .isPresent());
+        assertFalse(ordersRepository.findByCode(CODE)
+                                    .isPresent());
 
         // Check if values from init are present
         Optional<OrdersEntity> entityFromInit = ordersRepository.findByCode(INIT_CODE);
-        Assert.assertTrue(entityFromInit.isPresent());
+        assertTrue(entityFromInit.isPresent());
         OrdersEntity ordersEntity = entityFromInit.get();
 
         // Assert if everything is as in import script
-        Assert.assertEquals(true, ordersEntity.getActive());
-        Assert.assertEquals(INIT_CASH_ON_DELIVERY, ordersEntity.getCashOnDelivery());
-        Assert.assertEquals(INIT_DELIVERED, ordersEntity.getDelivered());
-        Assert.assertEquals(INIT_ADDITIONAL_INFO, ordersEntity.getAdditionalInfo());
-        Assert.assertEquals(INIT_ADDRESS, ordersEntity.getAddress());
-        Assert.assertEquals(INIT_DELIVERY_DATE_TIME, ordersEntity.getDeliveryDateTime());
-        Assert.assertEquals(INIT_CREATED_TIME, ordersEntity.getCreatedTime());
-        Assert.assertEquals(INIT_PRICE, ordersEntity.getPrice());
+        assertEquals(true, ordersEntity.getActive());
+        assertEquals(INIT_CASH_ON_DELIVERY, ordersEntity.getCashOnDelivery());
+        assertEquals(INIT_DELIVERED, ordersEntity.getDelivered());
+        assertEquals(INIT_ADDITIONAL_INFO, ordersEntity.getAdditionalInfo());
+        assertEquals(INIT_ADDRESS, ordersEntity.getAddress());
+        assertEquals(INIT_DELIVERY_DATE_TIME, ordersEntity.getDeliveryDateTime());
+        assertEquals(INIT_CREATED_TIME, ordersEntity.getCreatedTime());
+        assertEquals(INIT_PRICE, ordersEntity.getPrice());
 
         // Change information from import script to information from initOrder method by changing code
         initOrder.setCode(INIT_CODE);
@@ -171,14 +170,14 @@ public class OrderControllerTest {
 
         OrdersEntity updatedOrder = findByCode(INIT_CODE);
 
-        Assert.assertEquals(true, updatedOrder.getActive());
-        Assert.assertEquals(CASH_ON_DELIVERY, updatedOrder.getCashOnDelivery());
-        Assert.assertEquals(DELIVERED, updatedOrder.getDelivered());
-        Assert.assertEquals(ADDITIONAL_INFO, updatedOrder.getAdditionalInfo());
-        Assert.assertEquals(ADDRESS, updatedOrder.getAddress());
-        Assert.assertEquals(DELIVERY_DATE_TIME, updatedOrder.getDeliveryDateTime());
-        Assert.assertEquals(CREATED_TIME, updatedOrder.getCreatedTime());
-        Assert.assertEquals(PRICE, updatedOrder.getPrice());
+        assertEquals(true, updatedOrder.getActive());
+        assertEquals(CASH_ON_DELIVERY, updatedOrder.getCashOnDelivery());
+        assertEquals(DELIVERED, updatedOrder.getDelivered());
+        assertEquals(ADDITIONAL_INFO, updatedOrder.getAdditionalInfo());
+        assertEquals(ADDRESS, updatedOrder.getAddress());
+        assertEquals(DELIVERY_DATE_TIME, updatedOrder.getDeliveryDateTime());
+        assertEquals(CREATED_TIME, updatedOrder.getCreatedTime());
+        assertEquals(PRICE, updatedOrder.getPrice());
     }
 
     @Test
@@ -186,12 +185,12 @@ public class OrderControllerTest {
     public void deactivateOrder() {
         OrdersEntity orderByCode = findByCode(INIT_CODE);
 
-        Assert.assertTrue(orderByCode.getActive());
+        assertTrue(orderByCode.getActive());
 
         orderController.deactivateOrder(INIT_CODE);
 
         orderByCode = findByCode(INIT_CODE);
 
-        Assert.assertFalse(orderByCode.getActive());
+        assertFalse(orderByCode.getActive());
     }
 }

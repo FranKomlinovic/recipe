@@ -39,7 +39,7 @@ public class OrderController {
         return RestDto.success("Order uspješno dodan!");
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("")
     public RestDto<Void> updateOrder(@RequestBody OrderDto orderDto) {
         log.info("Update order: {}...", orderDto.getCode());
         log.trace("Order: " + orderDto);
@@ -49,7 +49,7 @@ public class OrderController {
         return RestDto.success("Order uspješno ažuriran");
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{code}")
     public RestDto<Void> deactivateOrder(@PathVariable String code) {
         log.info("Deleting order: {}...", code);
         long time = System.currentTimeMillis();

@@ -16,4 +16,16 @@ public class DelivererService {
     public List<DelivererDto> getAllDeliverers() {
         return delivererJpa.getAllDeliverers();
     }
+
+    public void addDeliverer(DelivererDto delivererDto) {
+        delivererJpa.addDeliverer(delivererDto);
+    }
+
+    public void updateDeliverer(DelivererDto delivererDto) {
+        delivererJpa.updateDeliverer(delivererDto);
+    }
+
+    public void deactivateDeliverer(String code) {
+        delivererJpa.deactivateDeliverer(code);
+    }
 }

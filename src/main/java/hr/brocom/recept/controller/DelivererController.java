@@ -6,10 +6,9 @@ import hr.brocom.recept.service.DelivererService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,5 +28,34 @@ public class DelivererController {
         log.trace("getAllActiveDeliverers finished in {} ms", System.currentTimeMillis() - time);
         log.trace("getAllActiveDeliverers returned {} results", deliverers.size());
         return RestDto.success(deliverers);
+    }
+
+    @PostMapping("")
+    public RestDto<Void> addDeliverer(@RequestBody @Valid DelivererDto delivererDto) {
+        log.info("Adding deliverer: {}...", delivererDto.getCode());
+        log.trace("Deliverer: {}", delivererDto);
+        long time = System.currentTimeMillis();
+        delivererService.addDeliverer(delivererDto);
+        log.trace("addDeliverer finished in {} ms", System.currentTimeMillis() - time);
+        return RestDto.success("Deliverer uspješno dodan!");
+    }
+
+    @PutMapping("")
+    public RestDto<Void> updateDeliverer(@RequestBody DelivererDto delivererDto) {
+        log.info("Update deliverer: {}...", delivererDto.getCode());
+        log.trace("Deliverer: " + delivererDto);
+        long time = System.currentTimeMillis();
+        delivererService.updateDeliverer(delivererDto);
+        log.trace("updateDeliverer finished in {} ms", System.currentTimeMillis() - time);
+        return RestDto.success("Deliverer uspješno ažuriran");
+    }
+
+    @DeleteMapping("/{code}")
+    public RestDto<Void> deactivateDeliverer(@PathVariable String code) {
+        log.info("Deleting deliverer: {}...", code);
+        long time = System.currentTimeMillis();
+        delivererService.deactivateDeliverer(code);
+        log.trace("deleteDeliverer finished in {} ms", System.currentTimeMillis() - time);
+        return RestDto.success("Deliverer uspješno obrisan");
     }
 }
