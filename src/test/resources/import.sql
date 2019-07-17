@@ -1,3 +1,5 @@
+-- noinspection SqlResolveForFile
+
 -- @formatter:off
 MERGE INTO USER (ID, USERNAME, MAIL, ADDRESS, ACTIVE) KEY (ID) VALUES (1, 'User', 'user@mail.com', 'Testna Ulica 1', true);
 MERGE INTO DELIVERER (ID, CODE, FIRST_NAME, LAST_NAME, ACTIVE) KEY (ID) VALUES (1, 'DEL0', 'Ivan', 'Ivanic', true);
