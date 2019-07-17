@@ -1,17 +1,17 @@
 package hr.brocom.recept.model;
 
 public class UserDto {
-    private String  nickname;
-    private String  mail;
-    private String  address;
+    private String username;
+    private String mail;
+    private String address;
     private Boolean active;
 
-    public String getNickname() {
-        return nickname;
+    public String getUsername() {
+        return username;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getMail() {
@@ -40,7 +40,7 @@ public class UserDto {
 
     @Override
     public String toString() {
-        return "UserDto{" + "nickname='" + nickname + '\'' + ", mail='" + mail + '\'' + ", address='" + address + '\'' + ", active=" + active + '}';
+        return "UserDto{" + "username='" + username + '\'' + ", mail='" + mail + '\'' + ", address='" + address + '\'' + ", active=" + active + '}';
     }
 }
 

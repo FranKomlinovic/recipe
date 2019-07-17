@@ -7,11 +7,11 @@ import java.util.Objects;
 @Entity
 @Table(name = "user")
 public class UserEntity {
-    private Long               id;
-    private String             nickname;
-    private String             mail;
-    private String             address;
-    private Boolean            active = true;
+    private Long id;
+    private String username;
+    private String mail;
+    private String address;
+    private Boolean active = true;
     private List<OrdersEntity> orderEntityList;
 
     @Id
@@ -26,13 +26,13 @@ public class UserEntity {
     }
 
     @Basic
-    @Column(name = "nickname", nullable = false, unique = true)
-    public String getNickname() {
-        return nickname;
+    @Column(name = "username", nullable = false, unique = true)
+    public String getUsername() {
+        return username;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setUsername(String nickname) {
+        this.username = nickname;
     }
 
     @Basic
@@ -76,7 +76,7 @@ public class UserEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nickname, mail, address);
+        return Objects.hash(id, username, mail, address);
     }
 
     @Override
@@ -88,8 +88,8 @@ public class UserEntity {
             return false;
         }
         UserEntity that = (UserEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(nickname, that.nickname) && Objects.equals(mail,
-                                                                                                        that.mail) && Objects.equals(
+        return Objects.equals(id, that.id) && Objects.equals(username, that.username) && Objects.equals(mail,
+                that.mail) && Objects.equals(
                 address,
                 that.address);
     }

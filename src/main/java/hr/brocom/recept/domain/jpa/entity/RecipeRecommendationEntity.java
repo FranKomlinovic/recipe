@@ -1,13 +1,11 @@
 package hr.brocom.recept.domain.jpa.entity;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
-@Table(name = "product_recipe")
-public class ProductRecipeEntity {
+@Table(name = "recipe_recommendation")
+public class RecipeRecommendationEntity {
     private Long id;
-    private Integer quantity;
     private ProductEntity product;
     private RecipeEntity recipe;
 
@@ -20,16 +18,6 @@ public class ProductRecipeEntity {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    @Basic
-    @Column(name = "quantity", nullable = false)
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
     }
 
     @ManyToOne
@@ -50,22 +38,5 @@ public class ProductRecipeEntity {
 
     public void setRecipe(RecipeEntity recipe) {
         this.recipe = recipe;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, quantity);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        ProductRecipeEntity that = (ProductRecipeEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(quantity, that.quantity);
     }
 }

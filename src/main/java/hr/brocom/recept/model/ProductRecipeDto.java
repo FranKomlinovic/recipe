@@ -1,10 +1,8 @@
 package hr.brocom.recept.model;
 
-import hr.brocom.recept.domain.jpa.entity.ProductEntity;
-
 public class ProductRecipeDto {
-    private Integer       quantity;
-    private ProductEntity product;
+    private Integer quantity;
+    private ProductDto product;
 
     public Integer getQuantity() {
         return quantity;
@@ -14,11 +12,11 @@ public class ProductRecipeDto {
         this.quantity = quantity;
     }
 
-    public ProductEntity getProduct() {
+    public ProductDto getProduct() {
         return product;
     }
 
-    public void setProduct(ProductEntity product) {
+    public void setProduct(ProductDto product) {
         this.product = product;
     }
 

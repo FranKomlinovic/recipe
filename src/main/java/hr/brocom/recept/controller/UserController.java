@@ -6,10 +6,9 @@ import hr.brocom.recept.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,5 +28,35 @@ public class UserController {
         log.trace("getAllActiveUsers finished in {} ms", System.currentTimeMillis() - time);
         log.trace("getAllActiveUsers returned {} results", users.size());
         return RestDto.success(users);
+    }
+
+
+    @PostMapping("")
+    public RestDto<Void> addUser(@RequestBody @Valid UserDto userDto) {
+        log.info("Adding user: {}...", userDto.getUsername());
+        log.trace("User: {}", userDto);
+        long time = System.currentTimeMillis();
+        userService.addUser(userDto);
+        log.trace("addUser finished in {} ms", System.currentTimeMillis() - time);
+        return RestDto.success("User uspješno dodan!");
+    }
+
+    @PutMapping("")
+    public RestDto<Void> updateUser(@RequestBody UserDto userDto) {
+        log.info("Update user: {}...", userDto.getUsername());
+        log.trace("User: " + userDto);
+        long time = System.currentTimeMillis();
+        userService.updateUser(userDto);
+        log.trace("updateUser finished in {} ms", System.currentTimeMillis() - time);
+        return RestDto.success("User uspješno ažuriran");
+    }
+
+    @DeleteMapping("/{code}")
+    public RestDto<Void> deactivateUser(@PathVariable String code) {
+        log.info("Deleting user: {}...", code);
+        long time = System.currentTimeMillis();
+        userService.deactivateUser(code);
+        log.trace("deleteUser finished in {} ms", System.currentTimeMillis() - time);
+        return RestDto.success("User uspješno obrisan");
     }
 }

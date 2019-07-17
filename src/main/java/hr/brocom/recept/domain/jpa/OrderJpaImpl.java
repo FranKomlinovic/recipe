@@ -34,9 +34,9 @@ public class OrderJpaImpl {
     @Transactional
     public List<OrderDto> getAllActiveOrders() {
         return orderRepository.findAllByActiveTrue()
-                              .stream()
-                              .map(r -> modelMapper.map(r, OrderDto.class))
-                              .collect(Collectors.toList());
+                .stream()
+                .map(r -> modelMapper.map(r, OrderDto.class))
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -44,14 +44,25 @@ public class OrderJpaImpl {
         modifyOrder(new OrdersEntity(), orderDto);
     }
 
+    @Transactional
+    public void updateOrder(OrderDto orderDto) {
+        modifyOrder(findByCode(orderDto.getCode()), orderDto);
+    }
+
+    @Transactional
+    public void deactivateOrder(String code) {
+        OrdersEntity orderEntity = findByCode(code);
+        orderEntity.setActive(false);
+        orderRepository.saveAndFlush(orderEntity);
+    }
+
     private void modifyOrder(OrdersEntity orderEntity, OrderDto orderDto) {
         orderEntity.setCode(orderDto.getCode());
 
-        //TODO iz repozitorija povuci to
         orderEntity.setDeliverer(findDelivererByCode(orderDto.getDeliverer()
-                                                             .getCode()));
+                .getCode()));
         orderEntity.setUser(findUserByUsername(orderDto.getUser()
-                                                       .getNickname()));
+                .getUsername()));
         orderEntity.setCreatedTime(orderDto.getCreatedTime());
         orderEntity.setDeliveryDateTime(orderDto.getDeliveryDateTime());
         orderEntity.setAddress(orderDto.getAddress());
@@ -65,29 +76,18 @@ public class OrderJpaImpl {
 
     private DelivererEntity findDelivererByCode(String code) {
         return delivererRepository.findByCode(code)
-                                  .orElseThrow(() -> new NoSuchElementException("Nema entity-a"));
+                .orElseThrow(() -> new NoSuchElementException("Nema entity-a"));
     }
 
     private UserEntity findUserByUsername(String username) {
-        return userRepository.findByNickname(username)
-                             .orElseThrow(() -> new NoSuchElementException("Nema entity-a"));
-    }
-
-    @Transactional
-    public void updateOrder(OrderDto orderDto) {
-        OrdersEntity orderEntity = findByCode(orderDto.getCode());
-        modifyOrder(orderEntity, orderDto);
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new NoSuchElementException("Nema entity-a"));
     }
 
     private OrdersEntity findByCode(String code) {
         return orderRepository.findByCode(code)
-                              .orElseThrow(() -> new NoSuchElementException("Nema entity-a"));
+                .orElseThrow(() -> new NoSuchElementException("Nema entity-a"));
     }
 
-    @Transactional
-    public void deactivateOrder(String code) {
-        OrdersEntity orderEntity = findByCode(code);
-        orderEntity.setActive(false);
-        orderRepository.saveAndFlush(orderEntity);
-    }
+
 }

@@ -16,4 +16,16 @@ public class ProductService {
     public List<ProductDto> getAllProducts() {
         return productJpa.getAllProducts();
     }
+
+    public void addProduct(ProductDto productDto) {
+        productJpa.addProduct(productDto);
+    }
+
+    public void updateProduct(ProductDto productDto) {
+        productJpa.updateProduct(productDto);
+    }
+
+    public void deactivateProduct(String code) {
+        productJpa.deactivateProduct(code);
+    }
 }

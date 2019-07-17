@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Repository
@@ -23,28 +24,43 @@ public class UserJpaImpl {
     @Transactional
     public List<UserDto> getAllUsers() {
         return userRepository.findAll()
-                             .stream()
-                             .map(r -> modelMapper.map(r, UserDto.class))
-                             .collect(Collectors.toList());
+                .stream()
+                .map(r -> modelMapper.map(r, UserDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public UserDto findUserByUsername(String username) {
+        return modelMapper.map(findByUsername(username), UserDto.class);
     }
 
     @Transactional
     public void addUser(UserDto userDto) {
-        userRepository.saveAndFlush(modelMapper.map(userDto, UserEntity.class));
+        modifyUser(new UserEntity(), userDto);
     }
 
     @Transactional
-    public UserDto findById(Long id) {
-        return modelMapper.map(userRepository.findById(id), UserDto.class);
+    public void updateUser(UserDto userDto) {
+        modifyUser(findByUsername(userDto.getUsername()), userDto);
     }
 
     @Transactional
-    public UserDto findByMail(String mail) {
-        return modelMapper.map(userRepository.findByMail(mail), UserDto.class);
+    public void deactivateUser(String username) {
+        UserEntity userEntity = findByUsername(username);
+        userEntity.setActive(false);
+        userRepository.saveAndFlush(userEntity);
     }
 
-    @Transactional
-    public UserDto findByUsername(String username) {
-        return modelMapper.map(userRepository.findByNickname(username), UserDto.class);
+    private UserEntity findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new NoSuchElementException("Nema entity-a"));
     }
+
+    private void modifyUser(UserEntity userEntity, UserDto userDto) {
+        userEntity.setMail(userDto.getMail());
+        userEntity.setUsername(userDto.getUsername());
+        userEntity.setAddress(userDto.getAddress());
+        userRepository.saveAndFlush(userEntity);
+    }
+
 }

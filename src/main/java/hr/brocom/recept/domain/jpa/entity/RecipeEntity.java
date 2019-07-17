@@ -8,14 +8,14 @@ import java.util.Objects;
 @Entity
 @Table(name = "recipe")
 public class RecipeEntity {
-    private Long                      id;
-    private String                    code;
-    private String                    name;
-    private String                    text;
-    private LocalDateTime             createdTime;
-    private Boolean                   active = true;
+    private Long id;
+    private String code;
+    private String name;
+    private String text;
+    private LocalDateTime createdTime;
+    private Boolean active = true;
     private List<ProductRecipeEntity> productRecipeList;
-    private List<ProductEntity>       recommendedProducts;
+    private List<ProductEntity> recommendedProducts;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -112,7 +112,7 @@ public class RecipeEntity {
         }
         RecipeEntity that = (RecipeEntity) o;
         return Objects.equals(id, that.id) && Objects.equals(code, that.code) && Objects.equals(name,
-                                                                                                that.name) && Objects.equals(
+                that.name) && Objects.equals(
                 text,
                 that.text) && Objects.equals(createdTime, that.createdTime) && Objects.equals(active, that.active);
     }

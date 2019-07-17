@@ -34,7 +34,7 @@ CREATE TABLE product_recipe
 CREATE TABLE user
 (
     id       BIGINT       NOT NULL AUTO_INCREMENT,
-    nickname varchar(255) NOT NULL UNIQUE,
+    username varchar(255) NOT NULL UNIQUE,
     mail     varchar(255) NOT NULL UNIQUE,
     address  varchar(255) NOT NULL,
     active   BOOLEAN      NOT NULL DEFAULT TRUE,

@@ -16,4 +16,16 @@ public class RecipeService {
     public List<RecipeDto> getAllRecipes() {
         return recipeJpa.getAllRecipes();
     }
+
+    public void addRecipe(RecipeDto recipeDto) {
+        recipeJpa.addRecipe(recipeDto);
+    }
+
+    public void updateRecipe(RecipeDto recipeDto) {
+        recipeJpa.updateRecipe(recipeDto);
+    }
+
+    public void deactivateRecipe(String code) {
+        recipeJpa.deactivateRecipe(code);
+    }
 }

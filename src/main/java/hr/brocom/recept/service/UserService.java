@@ -16,4 +16,16 @@ public class UserService {
     public List<UserDto> getAllUsers() {
         return userJpa.getAllUsers();
     }
+
+    public void addUser(UserDto userDto) {
+        userJpa.addUser(userDto);
+    }
+
+    public void updateUser(UserDto userDto) {
+        userJpa.updateUser(userDto);
+    }
+
+    public void deactivateUser(String code) {
+        userJpa.deactivateUser(code);
+    }
 }
