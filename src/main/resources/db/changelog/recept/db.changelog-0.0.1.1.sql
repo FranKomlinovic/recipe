@@ -108,3 +108,51 @@ ALTER TABLE order_product
 
 ALTER TABLE order_product
     ADD CONSTRAINT order_product_fk1 FOREIGN KEY (product_id) REFERENCES product (id);
+
+-- changeset fkomlinov:0.0.1.2
+CREATE TABLE card (
+                      id INT NOT NULL AUTO_INCREMENT,
+                      name varchar(300) NOT NULL,
+                      type INT(10) NOT NULL,
+                      description varchar(1500) NOT NULL,
+                      race varchar(255),
+                      archetype varchar(255),
+                      banlist  ENUM('Banned', 'Limited', 'Semi-Limited'),
+                      PRIMARY KEY (id)
+);
+
+CREATE TABLE type (
+                      id INT NOT NULL AUTO_INCREMENT,
+                      type varchar(255) NOT NULL,
+                      PRIMARY KEY (id)
+);
+
+CREATE TABLE image (
+                       id INT NOT NULL AUTO_INCREMENT,
+                       card INT NOT NULL,
+                       image varchar(255),
+                       image_small varchar(255),
+                       PRIMARY KEY (id)
+);
+
+CREATE TABLE edition (
+                         id INT NOT NULL AUTO_INCREMENT,
+                         name varchar(255) NOT NULL,
+                         PRIMARY KEY (id)
+);
+
+CREATE TABLE card_edition (
+                              edition INT NOT NULL,
+                              card INT NOT NULL,
+                              rarity varchar(255),
+                              price DECIMAL(7,6) NOT NULL
+);
+
+ALTER TABLE card ADD CONSTRAINT card_fk0 FOREIGN KEY (type) REFERENCES type(id);
+
+ALTER TABLE image ADD CONSTRAINT image_fk0 FOREIGN KEY (card) REFERENCES card(id);
+
+ALTER TABLE card_edition ADD CONSTRAINT card_edition_fk0 FOREIGN KEY (edition) REFERENCES edition(id);
+
+ALTER TABLE card_edition ADD CONSTRAINT card_edition_fk1 FOREIGN KEY (card) REFERENCES card(id);
+

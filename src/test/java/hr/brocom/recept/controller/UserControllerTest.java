@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,11 +37,11 @@ public class UserControllerTest {
     @Test
     @Transactional
     public void getAllActiveUsers() {
-        RestDto<List<UserDto>> response = userController.getAllActiveUsers();
+        ResponseEntity<List<UserDto>> response = userController.getAllActiveUsers();
 
-        assertNotNull(response.getData());
-        assertTrue(response.isSuccess());
-        Optional<UserDto> userOptional = response.getData()
+        assertNotNull(response.getBody());
+        assertEquals("200", response.getStatusCode());
+        Optional<UserDto> userOptional = response.getBody()
                 .stream()
                 .filter(userDto -> INIT_USERNAME.equals(userDto.getUsername()))
                 .findFirst();
