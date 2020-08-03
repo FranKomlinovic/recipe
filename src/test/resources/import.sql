@@ -1,8 +1,0 @@
--- @formatter:off
-MERGE INTO USER (ID, NICKNAME, MAIL, ADDRESS, ACTIVE) KEY (ID)
-    VALUES (1, 'User', 'user@mail.com', 'Testna Ulica 1', true);
-MERGE INTO DELIVERER (ID, CODE, FIRST_NAME, LAST_NAME, ACTIVE) KEY (ID)
-    VALUES (1, 'DEL0', 'Ivan', 'Ivan', true);
-MERGE INTO ORDERS (ID, CODE, DELIVERER_ID, USER_ID, CREATED_TIME, DELIVERY_DATETIME, ADDRESS, PRICE, CASH_ON_DELIVERY, DELIVERED, ADDITIONAL_INFO, ACTIVE) KEY (ID)
-    VALUES (1, 'ORD0', 1, 1, '2019-07-10 13:50:45', '2019-07-10 13:50:45', 'Testna Ulica 1', 200.00, 1, 1, 'nema nekih info', true);
--- @formatter:on
