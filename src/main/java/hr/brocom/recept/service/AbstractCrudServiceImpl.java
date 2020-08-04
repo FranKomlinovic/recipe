@@ -1,6 +1,8 @@
 package hr.brocom.recept.service;
 
+import hr.brocom.recept.SearchCriteria;
 import hr.brocom.recept.domain.jpa.entity.BaseEntity;
+import hr.brocom.recept.domain.jpa.repository.AbstractDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,6 +25,9 @@ public abstract class AbstractCrudServiceImpl<ENTITY extends BaseEntity, DAO ext
      */
     @Autowired
     protected DAO dao;
+
+    @Autowired
+    protected AbstractDao<ENTITY> abstractDao;
 
     @Override
     public List<ENTITY> findAll(final Sort sort) {
@@ -60,5 +65,10 @@ public abstract class AbstractCrudServiceImpl<ENTITY extends BaseEntity, DAO ext
         final ENTITY entity = dao.findById(id).orElseThrow(EntityNotFoundException::new);
         entity.setActive(false);
         return dao.saveAndFlush(entity);
+    }
+
+    @Override
+    public List<ENTITY> searchUser(List<SearchCriteria> params) {
+        return abstractDao.search(params);
     }
 }

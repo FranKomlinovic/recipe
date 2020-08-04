@@ -1,5 +1,7 @@
 package hr.brocom.recept.service;
 
+import hr.brocom.recept.SearchCriteria;
+import hr.brocom.recept.domain.jpa.entity.BaseEntity;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -62,4 +64,6 @@ public interface AbstractCrudService<ENTITY> extends AbstractBaseService {
     void deleteList(List<UUID> idList);
 
     ENTITY deactivate(UUID id);
+
+    List<ENTITY> searchUser(List<SearchCriteria> params);
 }

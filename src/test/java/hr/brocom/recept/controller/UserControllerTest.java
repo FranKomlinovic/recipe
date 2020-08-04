@@ -1,7 +1,10 @@
 package hr.brocom.recept.controller;
 
+import hr.brocom.recept.SearchCriteria;
 import hr.brocom.recept.domain.jpa.entity.User;
+import hr.brocom.recept.domain.jpa.repository.UserDao;
 import hr.brocom.recept.domain.jpa.repository.UserRepository;
+import hr.brocom.recept.domain.jpa.repository.AbstractDaoImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +14,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.in;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -39,6 +46,24 @@ public class UserControllerTest {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    UserDao userDao;
+
+    @Test
+    public void test() {
+
+        final User initUser = createInitUser();
+        userRepository.save(initUser);
+        List<SearchCriteria> params = new ArrayList<SearchCriteria>();
+        params.add(new SearchCriteria("firstName", ":", "Fr"));
+        params.add(new SearchCriteria("lastName", ":", LAST_NAME));
+
+        String criteria = "search=firstName:Fr,lastName:Komlinofg";
+        List<User> results = userController.findAll(criteria);
+
+        assertFalse(false);
+
+    }
     @Test
     public void create() {
         final User user = createInitUser();
