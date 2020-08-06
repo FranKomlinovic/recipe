@@ -7,11 +7,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.function.Consumer;
 
-/**
- * Consumer for search query. Used for parsing search criteria for generic filtering results
- *
- * @author fran.komlinovic
- */
 public class AbstractSearchQueryCriteriaConsumer implements Consumer<SearchCriteria> {
 
     private Predicate predicate;

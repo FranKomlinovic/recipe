@@ -15,7 +15,7 @@
     <description>Demo project for Spring Boot</description>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
         <modelmapper.version>2.3.2</modelmapper.version>
         <maven-pmd-plugin-version>3.12.0</maven-pmd-plugin-version>
         <maven-checkstyle-plugin-version>3.1.0</maven-checkstyle-plugin-version>

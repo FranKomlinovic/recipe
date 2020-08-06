@@ -57,7 +57,7 @@ public abstract class AbstractCrudServiceImpl<ENTITY extends BaseEntity> impleme
     }
 
     @Override
-    public List<ENTITY> searchUser(final List<SearchCriteria> params) {
+    public List<ENTITY> findAllBySearchCriteria(final List<SearchCriteria> params) {
         return abstractRepositoryImpl.search(params);
     }
 }

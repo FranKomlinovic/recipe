@@ -14,14 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class AbstractCrudController<ENTITY extends BaseEntity, SERVICE extends AbstractCrudService<ENTITY>> {
 
@@ -36,19 +32,14 @@ public class AbstractCrudController<ENTITY extends BaseEntity, SERVICE extends A
         className = type.getSimpleName();
     }
 
-    @GetMapping(path = "/list")
-    public List<ENTITY> findAll(@RequestParam(value = "search", required = false) final String search) {
-        final List<SearchCriteria> params = new ArrayList<>();
-        if (search != null) {
-            final Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
-            final Matcher matcher = pattern.matcher(search + ",");
-            final SearchCriteria searchCriteria = new SearchCriteria(matcher.group(1),
-                    matcher.group(2), matcher.group(3));
-            while (matcher.find()) {
-                params.add(searchCriteria);
-            }
-        }
-        return service.searchUser(params);
+    @PostMapping(path = "/list")
+    public ResponseEntity<List<ENTITY>> findAll(@RequestBody final List<SearchCriteria> params) {
+        LOGGER.info("Getting all active {}s...", className);
+        final long time = System.currentTimeMillis();
+        final List<ENTITY> result = service.findAllBySearchCriteria(params);
+        LOGGER.trace("{}.findAllBySearchCriteria() finished in {} ms", getServiceName(), System.currentTimeMillis() - time);
+        LOGGER.info("{}.findAllBySearchCriteria() returned {} results", getServiceName(), result.size());
+        return ResponseEntity.ok(result);
     }
 
 

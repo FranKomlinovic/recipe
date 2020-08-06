@@ -64,5 +64,5 @@ public interface AbstractCrudService<ENTITY> extends AbstractBaseService {
 
     ENTITY deactivate(UUID id);
 
-    List<ENTITY> searchUser(List<SearchCriteria> params);
+    List<ENTITY> findAllBySearchCriteria(List<SearchCriteria> params);
 }
