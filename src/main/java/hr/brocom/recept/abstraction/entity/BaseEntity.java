@@ -1,4 +1,4 @@
-package hr.brocom.recept.domain.jpa.entity;
+package hr.brocom.recept.abstraction.entity;
 
 import lombok.Data;
 import lombok.ToString;
@@ -14,7 +14,7 @@ import java.util.UUID;
 @Data
 @ToString
 @Entity
-public abstract class BaseEntity {
+public class BaseEntity {
 
     @Id
     @GeneratedValue
@@ -28,5 +28,8 @@ public abstract class BaseEntity {
 
     private Boolean active = true;
 
+    protected BaseEntity() {
+        // Empty constructor used to avoid instancing of BaseEntity object
+    }
 }
 

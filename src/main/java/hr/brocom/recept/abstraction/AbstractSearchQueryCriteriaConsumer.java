@@ -1,4 +1,4 @@
-package hr.brocom.recept.domain.jpa.repository;
+package hr.brocom.recept.abstraction;
 
 import hr.brocom.recept.SearchCriteria;
 
@@ -7,14 +7,25 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.function.Consumer;
 
+/**
+ * Consumer for search query. Used for parsing search criteria for generic filtering results
+ *
+ * @author fran.komlinovic
+ */
 public class AbstractSearchQueryCriteriaConsumer implements Consumer<SearchCriteria> {
 
     private Predicate predicate;
     private CriteriaBuilder builder;
     private Root r;
 
+    public AbstractSearchQueryCriteriaConsumer(final Predicate predicate, final CriteriaBuilder builder, final Root r) {
+        this.predicate = predicate;
+        this.builder = builder;
+        this.r = r;
+    }
+
     @Override
-    public void accept(SearchCriteria param) {
+    public void accept(final SearchCriteria param) {
         if (param.getOperation().equalsIgnoreCase(">")) {
             predicate = builder.and(predicate, builder
                     .greaterThanOrEqualTo(r.get(param.getKey()), param.getValue().toString()));
@@ -36,7 +47,7 @@ public class AbstractSearchQueryCriteriaConsumer implements Consumer<SearchCrite
         return predicate;
     }
 
-    public void setPredicate(Predicate predicate) {
+    public void setPredicate(final Predicate predicate) {
         this.predicate = predicate;
     }
 
@@ -44,7 +55,7 @@ public class AbstractSearchQueryCriteriaConsumer implements Consumer<SearchCrite
         return builder;
     }
 
-    public void setBuilder(CriteriaBuilder builder) {
+    public void setBuilder(final CriteriaBuilder builder) {
         this.builder = builder;
     }
 
@@ -52,13 +63,8 @@ public class AbstractSearchQueryCriteriaConsumer implements Consumer<SearchCrite
         return r;
     }
 
-    public void setR(Root r) {
+    public void setR(final Root r) {
         this.r = r;
     }
 
-    public AbstractSearchQueryCriteriaConsumer(Predicate predicate, CriteriaBuilder builder, Root r) {
-        this.predicate = predicate;
-        this.builder = builder;
-        this.r = r;
-    }
 }

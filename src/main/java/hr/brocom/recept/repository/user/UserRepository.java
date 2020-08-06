@@ -1,6 +1,6 @@
-package hr.brocom.recept.domain.jpa.repository;
+package hr.brocom.recept.repository.user;
 
-import hr.brocom.recept.domain.jpa.entity.User;
+import hr.brocom.recept.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

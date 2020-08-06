@@ -11,5 +11,6 @@ public class ReceptApplicationTests {
 
     @Test
     public void contextLoads() {
+        // Loading context
     }
 }

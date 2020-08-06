@@ -1,11 +1,8 @@
-package hr.brocom.recept.service;
-
-import org.springframework.stereotype.Service;
+package hr.brocom.recept.abstraction.service;
 
 /**
  * Service that all services should implement.
  * @author fran.komlinovic
  */
-@Service
 public interface  AbstractBaseService {
 }

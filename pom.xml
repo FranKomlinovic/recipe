@@ -17,6 +17,10 @@
     <properties>
         <java.version>1.8</java.version>
         <modelmapper.version>2.3.2</modelmapper.version>
+        <maven-pmd-plugin-version>3.12.0</maven-pmd-plugin-version>
+        <maven-checkstyle-plugin-version>3.1.0</maven-checkstyle-plugin-version>
+        <skip.pmd>false</skip.pmd>
+        <skip.checkstyle>false</skip.checkstyle>
     </properties>
 
     <dependencies>
@@ -81,7 +85,81 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <!--Checkstyle Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+            </plugin>
+            <!--PMD Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+            </plugin>
         </plugins>
-    </build>
 
+        <pluginManagement>
+        <plugins>
+        <!--Checkstyle Plugin-->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>${maven-checkstyle-plugin-version}</version>
+            <configuration>
+                <skip>${skip.checkstyle}</skip>
+                <configLocation>configuration/code-quality/checkstyle/checkstyle_checks.xml</configLocation>
+                <suppressionsLocation>configuration/code-quality/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
+                <propertiesLocation>configuration/code-quality/checkstyle/checkstyle_checks.properties</propertiesLocation>
+                <propertyExpansion>config_loc=configuration/code-quality/checkstyle</propertyExpansion>
+                <linkXRef>false</linkXRef>
+                <consoleOutput>true</consoleOutput>
+                <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                <failOnViolation>true</failOnViolation>
+                <failsOnError>true</failsOnError>
+                <sourceDirectories>
+                    <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+                </sourceDirectories>
+            </configuration>
+            <executions>
+                <execution>
+                    <id>validate</id>
+                    <phase>compile</phase>
+                    <goals>
+                        <goal>checkstyle</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+        <!--PMD Plugin-->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-pmd-plugin</artifactId>
+            <version>${maven-pmd-plugin-version}</version>
+            <configuration>
+                <skip>${skip.pmd}</skip>
+                <linkXRef>false</linkXRef>
+                <verbose>true</verbose>
+                <minimumPriority>4</minimumPriority>
+                <failOnViolation>true</failOnViolation>
+                <includeTests>true</includeTests>
+                <rulesets>
+                    <ruleset>configuration/code-quality/pmd/pmd-ruleset.xml</ruleset>
+                </rulesets>
+                <excludeRoots>
+                    <excludeRoot>target/generated-sources</excludeRoot>
+                </excludeRoots>
+            </configuration>
+            <executions>
+                <execution>
+                    <id>validate</id>
+                    <goals>
+                        <goal>check</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+
+        </plugins>
+
+        </pluginManagement>
+    </build>
 </project>

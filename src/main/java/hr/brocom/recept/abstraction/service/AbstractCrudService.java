@@ -1,11 +1,8 @@
-package hr.brocom.recept.service;
+package hr.brocom.recept.abstraction.service;
 
 import hr.brocom.recept.SearchCriteria;
-import hr.brocom.recept.domain.jpa.entity.BaseEntity;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,6 +12,8 @@ import java.util.UUID;
  * @param <ENTITY> ENTITY type
  * @author fran.komlinovic
  */
+
+
 public interface AbstractCrudService<ENTITY> extends AbstractBaseService {
 
     /**

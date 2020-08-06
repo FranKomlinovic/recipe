@@ -8,7 +8,7 @@ public class SearchCriteria {
     private String operation;
     private Object value;
 
-    public SearchCriteria(String key, String operation, Object value) {
+    public SearchCriteria(final String key, final String operation, final Object value) {
         this.key = key;
         this.operation = operation;
         this.value = value;
