@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>hr.brocom</groupId>
-    <artifactId>recept</artifactId>
+    <artifactId>generic-application</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>recept</name>
+    <name>generic-application</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
