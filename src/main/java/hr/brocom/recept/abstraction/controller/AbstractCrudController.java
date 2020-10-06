@@ -43,7 +43,7 @@ public class AbstractCrudController<ENTITY extends BaseEntity, SERVICE extends A
     }
 
 
-    @GetMapping(path = "/get/{id}")
+    @GetMapping(path = "/{id}")
     public ResponseEntity<ENTITY> findById(@PathVariable("id") final UUID id) {
         LOGGER.info("Getting {} with UUID: {}...", className, id);
         final long time = System.currentTimeMillis();
@@ -53,7 +53,7 @@ public class AbstractCrudController<ENTITY extends BaseEntity, SERVICE extends A
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/get/list")
+    @GetMapping("/list")
     public ResponseEntity<List<ENTITY>> findAllActive() {
         LOGGER.info("Getting all active {}s...", className);
         final long time = System.currentTimeMillis();
@@ -63,7 +63,7 @@ public class AbstractCrudController<ENTITY extends BaseEntity, SERVICE extends A
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/create")
+    @PostMapping()
     public ResponseEntity<ENTITY> create(@RequestBody @Valid final ENTITY entity) {
         LOGGER.info("Creating {}...", entity);
         final long time = System.currentTimeMillis();
@@ -74,7 +74,7 @@ public class AbstractCrudController<ENTITY extends BaseEntity, SERVICE extends A
     }
 
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ENTITY> update(@RequestBody final ENTITY entity) {
         LOGGER.info("Updating {} with UUID: {}...", className, entity.getId());
         final long time = System.currentTimeMillis();
@@ -84,7 +84,7 @@ public class AbstractCrudController<ENTITY extends BaseEntity, SERVICE extends A
         return ResponseEntity.ok(update);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable final UUID id) {
         LOGGER.info("Deleting {}: with UUID: {}...", className, id);
         final long time = System.currentTimeMillis();
