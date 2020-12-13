@@ -21,21 +21,43 @@ public class AbstractSearchQueryCriteriaConsumer implements Consumer<SearchCrite
 
     @Override
     public void accept(final SearchCriteria param) {
-        if (param.getOperation().equalsIgnoreCase(">")) {
-            predicate = builder.and(predicate, builder
-                    .greaterThanOrEqualTo(r.get(param.getKey()), param.getValue().toString()));
-        } else if (param.getOperation().equalsIgnoreCase("<")) {
-            predicate = builder.and(predicate, builder.lessThanOrEqualTo(
-                    r.get(param.getKey()), param.getValue().toString()));
-        } else if (param.getOperation().equalsIgnoreCase(":")) {
-            if (r.get(param.getKey()).getJavaType() == String.class) {
-                predicate = builder.and(predicate, builder.like(
-                        r.get(param.getKey()), "%" + param.getValue() + "%"));
-            } else {
-                predicate = builder.and(predicate, builder.equal(
+        final String operation = param.getOperation();
+
+        switch (operation) {
+            case "gte":
+                predicate = builder.and(predicate, builder
+                        .greaterThanOrEqualTo(r.get(param.getKey()), param.getValue().toString()));
+                break;
+            case "gt":
+                predicate = builder.and(predicate, builder
+                        .greaterThan(r.get(param.getKey()), param.getValue().toString()));
+                break;
+            case "lte":
+                predicate = builder.and(predicate, builder.lessThanOrEqualTo(
+                        r.get(param.getKey()), param.getValue().toString()));
+                break;
+            case "lt":
+                predicate = builder.and(predicate, builder.lessThan(
+                        r.get(param.getKey()), param.getValue().toString()));
+                break;
+            case "eq":
+                if (r.get(param.getKey()).getJavaType() == String.class) {
+                    predicate = builder.and(predicate, builder.like(
+                            r.get(param.getKey()), "%" + param.getValue() + "%"));
+                } else {
+                    predicate = builder.and(predicate, builder.equal(
+                            r.get(param.getKey()), param.getValue()));
+                }
+                break;
+            case "neq":
+                predicate = builder.and(predicate, builder.notEqual(
                         r.get(param.getKey()), param.getValue()));
-            }
+                break;
+
+            default:
+                throw new IllegalArgumentException();
         }
+
     }
 
     public Predicate getPredicate() {

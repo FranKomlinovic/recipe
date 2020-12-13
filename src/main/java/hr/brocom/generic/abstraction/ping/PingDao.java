@@ -1,15 +1,14 @@
-package hr.brocom.generic.repository.user;
+package hr.brocom.generic.abstraction.ping;
 
 import hr.brocom.generic.abstraction.repository.AbstractRepository;
 import hr.brocom.generic.abstraction.repository.AbstractRepositoryImpl;
-import hr.brocom.generic.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserDao extends AbstractRepositoryImpl<User, JpaRepository<User, Long>> implements AbstractRepository<User> {
+public class PingDao extends AbstractRepositoryImpl<Ping, JpaRepository<Ping, Long>> implements AbstractRepository<Ping> {
 
-    public UserDao() {
-        super(User.class);
+    public PingDao() {
+        super(Ping.class);
     }
 }

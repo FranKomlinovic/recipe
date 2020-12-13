@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.UUID;
 
 public class AbstractCrudController<ENTITY extends BaseEntity, SERVICE extends AbstractCrudService<ENTITY>> {
 
@@ -37,18 +36,18 @@ public class AbstractCrudController<ENTITY extends BaseEntity, SERVICE extends A
         LOGGER.info("Getting all active {}s...", className);
         final long time = System.currentTimeMillis();
         final List<ENTITY> result = service.findAllBySearchCriteria(params);
-        LOGGER.trace("{}.findAllBySearchCriteria() finished in {} ms", getServiceName(), System.currentTimeMillis() - time);
+        LOGGER.debug("{}.findAllBySearchCriteria() finished in {} ms", getServiceName(), System.currentTimeMillis() - time);
         LOGGER.info("{}.findAllBySearchCriteria() returned {} results", getServiceName(), result.size());
         return ResponseEntity.ok(result);
     }
 
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<ENTITY> findById(@PathVariable("id") final UUID id) {
-        LOGGER.info("Getting {} with UUID: {}...", className, id);
+    public ResponseEntity<ENTITY> findById(@PathVariable("id") final Long id) {
+        LOGGER.info("Getting {} with ID: {}...", className, id);
         final long time = System.currentTimeMillis();
         final ENTITY result = service.findById(id);
-        LOGGER.trace("{}.findById() finished in {} ms", getServiceName(), System.currentTimeMillis() - time);
+        LOGGER.debug("{}.findById() finished in {} ms", getServiceName(), System.currentTimeMillis() - time);
         LOGGER.info("{}.findById() returned {}", getServiceName(), result);
         return ResponseEntity.ok(result);
     }
@@ -58,7 +57,7 @@ public class AbstractCrudController<ENTITY extends BaseEntity, SERVICE extends A
         LOGGER.info("Getting all active {}s...", className);
         final long time = System.currentTimeMillis();
         final List<ENTITY> result = service.findAll(Sort.unsorted());
-        LOGGER.trace("{}.findAll() finished in {} ms", getServiceName(), System.currentTimeMillis() - time);
+        LOGGER.debug("{}.findAll() finished in {} ms", getServiceName(), System.currentTimeMillis() - time);
         LOGGER.info("{}.findAll() returned {} results", getServiceName(), result.size());
         return ResponseEntity.ok(result);
     }
@@ -68,39 +67,39 @@ public class AbstractCrudController<ENTITY extends BaseEntity, SERVICE extends A
         LOGGER.info("Creating {}...", entity);
         final long time = System.currentTimeMillis();
         final ENTITY created = service.create(entity);
-        LOGGER.trace("{}.create() finished in {} ms", getServiceName(), System.currentTimeMillis() - time);
+        LOGGER.debug("{}.create() finished in {} ms", getServiceName(), System.currentTimeMillis() - time);
         LOGGER.info("{}.create() returned {}", getServiceName(), created);
         return ResponseEntity.ok(created);
     }
 
 
-    @PutMapping("/{id}")
+    @PutMapping()
     public ResponseEntity<ENTITY> update(@RequestBody final ENTITY entity) {
-        LOGGER.info("Updating {} with UUID: {}...", className, entity.getId());
+        LOGGER.info("Updating {} with ID: {}...", className, entity.getId());
         final long time = System.currentTimeMillis();
         final ENTITY update = service.update(entity);
-        LOGGER.trace("{}.update() finished in {} ms", getServiceName(), System.currentTimeMillis() - time);
+        LOGGER.debug("{}.update() finished in {} ms", getServiceName(), System.currentTimeMillis() - time);
         LOGGER.info("{}.update() returned {}", getServiceName(), update);
         return ResponseEntity.ok(update);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable final UUID id) {
-        LOGGER.info("Deleting {}: with UUID: {}...", className, id);
+    public ResponseEntity delete(@PathVariable final Long id) {
+        LOGGER.info("Deleting {}: with ID: {}...", className, id);
         final long time = System.currentTimeMillis();
         service.delete(id);
-        LOGGER.trace("{}.delete() finished in {} ms", getServiceName(), System.currentTimeMillis() - time);
-        LOGGER.trace("{} deleted successfully", className);
+        LOGGER.debug("{}.delete() finished in {} ms", getServiceName(), System.currentTimeMillis() - time);
+        LOGGER.info("{} deleted successfully", className);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/deactivate/{id}")
-    public ResponseEntity<ENTITY> deactivate(@PathVariable final UUID id) {
-        LOGGER.info("Deactivating {}: with UUID: {}...", className, id);
+    public ResponseEntity<ENTITY> deactivate(@PathVariable final Long id) {
+        LOGGER.info("Deactivating {}: with ID: {}...", className, id);
         final long time = System.currentTimeMillis();
         final ENTITY deactivate = service.deactivate(id);
-        LOGGER.trace("{}.deactivate() finished in {} ms", getServiceName(), System.currentTimeMillis() - time);
-        LOGGER.trace("{} deactivated successfully", className);
+        LOGGER.debug("{}.deactivate() finished in {} ms", getServiceName(), System.currentTimeMillis() - time);
+        LOGGER.info("{} deactivated successfully", className);
         return ResponseEntity.ok(deactivate);
     }
 

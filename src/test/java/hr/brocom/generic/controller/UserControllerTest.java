@@ -46,14 +46,14 @@ public class UserControllerTest {
         final User initUser = createInitUser();
         userDao.create(initUser);
 
-        final SearchCriteria firstName = new SearchCriteria("firstName", ":", FIRST_NAME);
-        final SearchCriteria lastName = new SearchCriteria("lastName", ":", LAST_NAME);
+        final SearchCriteria firstName = new SearchCriteria("firstName", "eq", FIRST_NAME);
+        final SearchCriteria lastName = new SearchCriteria("lastName", "eq", LAST_NAME);
         final ResponseEntity<List<User>> allUsers = userController.findAll(List.of(lastName, firstName));
         assertEquals(HttpStatus.OK, allUsers.getStatusCode());
         assertNotNull(allUsers.getBody());
         assertFalse(allUsers.getBody().isEmpty());
 
-        final SearchCriteria falseLastName = new SearchCriteria("lastName", ":", FALSE_LAST_NAME);
+        final SearchCriteria falseLastName = new SearchCriteria("lastName", "eq", FALSE_LAST_NAME);
         final ResponseEntity<List<User>> falseAllusers = userController.findAll(List.of(falseLastName, firstName));
         assertEquals(HttpStatus.OK, falseAllusers.getStatusCode());
         assertNotNull(falseAllusers.getBody());

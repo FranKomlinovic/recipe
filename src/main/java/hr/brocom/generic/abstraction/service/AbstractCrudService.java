@@ -4,7 +4,6 @@ import hr.brocom.generic.SearchCriteria;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Service for CRUD operations.
@@ -30,7 +29,7 @@ public interface AbstractCrudService<ENTITY> extends AbstractBaseService {
      * @param id of requested object.
      * @return ENTITY by id.
      */
-    ENTITY findById(UUID id);
+    ENTITY findById(Long id);
 
     /**
      * Create object in database.
@@ -53,16 +52,16 @@ public interface AbstractCrudService<ENTITY> extends AbstractBaseService {
      *
      * @param id of object to delete
      */
-    void delete(UUID id);
+    void delete(Long id);
 
     /**
      * Delete list of objects by list of ids.
      *
      * @param idList of objects to delete
      */
-    void deleteList(List<UUID> idList);
+    void deleteList(List<Long> idList);
 
-    ENTITY deactivate(UUID id);
+    ENTITY deactivate(Long id);
 
     List<ENTITY> findAllBySearchCriteria(List<SearchCriteria> params);
 }

@@ -5,20 +5,20 @@ import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import java.sql.Timestamp;
-import java.util.UUID;
 
-@Data
 @ToString
-@Entity
-public class BaseEntity {
+@MappedSuperclass
+@Data
+@SuppressWarnings("PMD.AbstractClassWithoutAbstractMethod")
+public abstract class BaseEntity {
 
     @Id
     @GeneratedValue
-    private UUID id;
+    private Long id;
 
     @CreationTimestamp
     private Timestamp created;
@@ -28,8 +28,11 @@ public class BaseEntity {
 
     private Boolean active = true;
 
+    /**
+     * Constructor.
+     */
     protected BaseEntity() {
-        // Empty constructor used to avoid instancing of BaseEntity object
+        // Empty constructor so class can be extended by entities.
     }
 }
 

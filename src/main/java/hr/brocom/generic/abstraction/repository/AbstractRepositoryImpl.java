@@ -15,9 +15,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
-import java.util.UUID;
 
-public abstract class AbstractRepositoryImpl<ENTITY extends BaseEntity, DAO extends JpaRepository<ENTITY, UUID>> implements AbstractRepository<ENTITY> {
+public abstract class AbstractRepositoryImpl<ENTITY extends BaseEntity, DAO extends JpaRepository<ENTITY, Long>> implements AbstractRepository<ENTITY> {
 
     @Autowired
     protected DAO dao;
@@ -54,7 +53,7 @@ public abstract class AbstractRepositoryImpl<ENTITY extends BaseEntity, DAO exte
     }
 
     @Override
-    public ENTITY findById(final UUID id) {
+    public ENTITY findById(final Long id) {
         return dao.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
@@ -70,18 +69,18 @@ public abstract class AbstractRepositoryImpl<ENTITY extends BaseEntity, DAO exte
     }
 
     @Override
-    public void delete(final UUID id) {
+    public void delete(final Long id) {
         dao.deleteById(id);
     }
 
     @Override
-    public void deleteList(final List<UUID> id) {
+    public void deleteList(final List<Long> id) {
         id.forEach(uuid -> dao.deleteById(uuid));
     }
 
     @Override
-    public ENTITY deactivate(final UUID id) {
-        final ENTITY entity = dao.findById(id).orElseThrow(EntityNotFoundException::new);
+    public ENTITY deactivate(final Long id) {
+        final ENTITY entity = findById(id);
         entity.setActive(false);
         return dao.saveAndFlush(entity);
     }

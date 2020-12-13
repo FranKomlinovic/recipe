@@ -1,13 +1,12 @@
 package hr.brocom.generic.abstraction.service;
 
 import hr.brocom.generic.SearchCriteria;
-import hr.brocom.generic.abstraction.repository.AbstractRepository;
 import hr.brocom.generic.abstraction.entity.BaseEntity;
+import hr.brocom.generic.abstraction.repository.AbstractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Abstract service for CRUD methods.
@@ -27,7 +26,7 @@ public abstract class AbstractCrudServiceImpl<ENTITY extends BaseEntity> impleme
     }
 
     @Override
-    public ENTITY findById(final UUID id) {
+    public ENTITY findById(final Long id) {
         return abstractRepositoryImpl.findById(id);
     }
 
@@ -42,17 +41,17 @@ public abstract class AbstractCrudServiceImpl<ENTITY extends BaseEntity> impleme
     }
 
     @Override
-    public void delete(final UUID id) {
+    public void delete(final Long id) {
         abstractRepositoryImpl.delete(id);
     }
 
     @Override
-    public void deleteList(final List<UUID> id) {
+    public void deleteList(final List<Long> id) {
         abstractRepositoryImpl.deleteList(id);
     }
 
     @Override
-    public ENTITY deactivate(final UUID id) {
+    public ENTITY deactivate(final Long id) {
         return abstractRepositoryImpl.deactivate(id);
     }
 
